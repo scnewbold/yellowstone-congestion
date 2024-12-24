@@ -1530,19 +1530,19 @@ if(TRUE){
     Y.inputs$lambda  <- lambda.hat
     Y.inputs$sigma   <- 0
     
-    Y.0       <- sum(Ytm[469:480]) / 12 # average monthly visits 2018 
+    Y.0       <- Ytm[469:480][7] # visits in July 2018
     gamma     <- log(Y.0/(exp(theta*(Y.0/10^6))*sum(N*exp(lambda.hat*(c+tau0)))))
     tau.range <- seq(0,250,1)
     Y.tau     <- matrix(0,length(tau.range),1)
     V.tau     <- matrix(0,length(tau.range),1)
     k <- 0
     for(tau in tau.range){k <- k + 1
-    Y.inputs$beta    <- gamma
-    Y.inputs$phi.t   <- 0
-    Y.inputs$alpha.m <- 0
-    Y.inputs$c       <- c + tau
-    Y.tau[k]         <- Y.fn(Y.inputs)$Ytm
-    V.tau[k]         <- Y.tau[k]/(-lambda.hat) + tau*Y.tau[k]
+      Y.inputs$beta    <- gamma
+      Y.inputs$phi.t   <- 0
+      Y.inputs$alpha.m <- 0
+      Y.inputs$c       <- c + tau
+      Y.tau[k]         <- Y.fn(Y.inputs)$Ytm
+      V.tau[k]         <- Y.tau[k]/(-lambda.hat) + tau*Y.tau[k]
     }
     Y.hat        <- Y.tau[which(V.tau==max(V.tau))]
     tau.theta[j] <- tau.range[which(V.tau==max(V.tau))]
@@ -1565,7 +1565,7 @@ if(TRUE){
       par(mar=c(3.5,3.5,1,1)) # figure border whitespace [bottom,left,top,right]
       
       bottom <- 0
-      top    <- 50
+      top    <- 100
       left   <- min(theta.range)
       right  <- max(theta.range)
       
